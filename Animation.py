@@ -12,9 +12,10 @@ class Animation(Thread):
         '''Function to execute on a seperate Thread'''
         print(self.TEXT, end='', flush=True)
         count = 0
+        limit = 3
 
         while self.animation:
-            if count > 3:
+            if count > limit:
                 count = 0
 
             print('.'*count, end='', flush=True)
@@ -22,7 +23,8 @@ class Animation(Thread):
             
             print('\b \b'*count, end='', flush=True)
             count += 1
-        print()
+
+        print('\b \b'*(len(self.TEXT)+limit)) 
 
     def join(self):
         '''

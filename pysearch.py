@@ -5,7 +5,7 @@ from urllib.request import urlopen
 from urllib.error import HTTPError 
 from urllib.error import URLError
 from bs4 import BeautifulSoup
-from . import Animation
+from Animation import Animation
 
 class Pip():
     """Modelling pip search functionality, prints first three pages of a search result."""
@@ -45,11 +45,14 @@ class Pip():
         soup = self.get_url(url)
 
         if soup:
+
             tags = soup.find_all("a", href=re.compile(r"^(/project.+)"))
             if tags:
+
                 try: # Checking for empty pages.
                     items = []
                     counter = 0
+
                     while counter < len(tags): # Searching each link, for names.
                         tag = tags[counter].h3.find_all("span", class_=re.compile("^package-snippet*"))
                         tag.append(tags[counter].p)
@@ -60,10 +63,10 @@ class Pip():
 
                 except AttributeError:
                     pass
-                else:
-                    return items
+
             else:
                 return None # Page does not exist
+
             return tags # May return None if it finds no tags.
         else:
             return None
@@ -75,9 +78,11 @@ class Pip():
         for tagss in tags:
             items = []
             counter = 0
+
             while counter < len(tagss):
                 items.append(tagss[counter].get_text().strip())
                 counter += 1
+
             details.append(items)
 
         return details
@@ -88,10 +93,11 @@ class Pip():
         version = search[1]
         date = search[2]
         description = search[3]
-        print("Name: " + name)
-        print("Version: " + version)
-        print("Date: " + date)
-        print("Description: " + description)
+
+        print(f"\033[0;34mName\033[0m: {name}")
+        print(f"\033[0;34mVersion\033[0m: {version}")
+        print(f"\033[0;34mDate\033[0m: {date}")
+        print(f"\033[0;34mDescription\033[0m: {description}")
         print()
 
 
@@ -108,46 +114,52 @@ def get_input(query):
 
 def main():
     """Displays first 3 pages of a search query if found."""
+    animate = Animation()
     result = Pip(query) # Pip object.
-    print("\n")
+    searches = []
+    print()
     end_page = 4
     
+    animate.start()
+
     while result.page_no != end_page: #First three pages
-        tags = result.elements(result.url) # Returns first page of search.
+        tags = result.elements(result.url) # returns results of current page
+
         if tags: 
-            searches = result.extract_info(tags) # Check if links are present.
-            if searches: # Extracting all elements>
-                for search in searches: # Extracting individual elements.
-                    result.display(search) # Displaying results.
+            searches += result.extract_info(tags) # Check if links are present.
             result.increase_page()
-            if result.page_no != end_page:
-                print("-" * 20)
-                print(f"Page {Pip.page_no}")
-                print("-" * 20, end="\n\n")
+
         else:
-            if result.page_no != 1:
-                print("End of file") # If page is not available then display this
-                break
-
-            print("Nothing was found.")
-
-if len(sys.argv) < 2:
-    query = input("Enter package to search: ")
-    query = get_input(query)
+            break
     
-    if query:
-        main()
-    else:
-        print("Invalid query entered.")
+    animate.join()
 
-else:
-    query = sys.argv[1]
-    query = get_input(query)
-   
-    # if user query passes.
-    if query:
-        main()
+    if searches: # Extracting all elements>
+        for search in searches: # Extracting individual elements.
+            result.display(search)
+    
+    print("END")
+
+if __name__ == "__main__":
+
+    print()
+    if len(sys.argv) < 2:
+        query = input("Enter package to search: ")
+        query = get_input(query)
+    
+        if query:
+            main()
+        else:
+            print("Invalid query entered.")
+
     else:
-        print("Invalid query entered.")
+        query = sys.argv[1]
+        query = get_input(query)
+   
+        # if user query passes.
+        if query:
+            main()
+        else:
+            print("Invalid query entered.")
 
 
