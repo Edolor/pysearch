@@ -1,2 +1,2 @@
 # pysearch
-pip search functionality,, implemented with web scraping.
+Unofficial pypi search api 
