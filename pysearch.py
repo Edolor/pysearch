@@ -22,11 +22,11 @@ class Pip():
         try:
             html = urlopen(url, timeout=5)
         except URLError as e:
-            print(e)
+            pass
         except HTTPError as e:
-            print(e)
+            pass
         except ValueError as e:
-            print(e)
+            pass
         else:
             soup = BeautifulSoup(html.read(), "html.parser")
             return soup
