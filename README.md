@@ -1,5 +1,6 @@
 # pysearch
 **Version 1.0**
+
 A Simple web scrapping tool desinged to pull list of available packages from pypi designed to be an easy to use replacement to pip search functionality with added color suppport 
 
 # Contributors
