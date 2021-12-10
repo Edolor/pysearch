@@ -48,7 +48,7 @@ function install(){
 	append_path
 
 	rm -r dist
-	printf "Programmed Installed Successfully\n\n"
+	printf "\nProgrammed Installed Successfully\n\n"
 
 	return 0
 }
