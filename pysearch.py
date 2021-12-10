@@ -5,9 +5,9 @@ from urllib.request import urlopen
 from urllib.error import HTTPError 
 from urllib.error import URLError
 from bs4 import BeautifulSoup
-from Animation import Animation
+from animations.animate import Animation
 
-class Pip():
+class Pysearch():
     """Modelling pip search functionality, prints first three pages of a search result."""
     page_no = 1
     
@@ -35,8 +35,8 @@ class Pip():
     
     def increase_page(self):
         """increment the page number."""
-        Pip.page_no = Pip.page_no + 1
-        self.url += f"&page={Pip.page_no}"
+        self.page_no = self.page_no + 1
+        self.url += f"&page={self.page_no}"
         
     def elements(self, url):
         """Returns none if no results is found else, returns a list of tags."""
@@ -115,7 +115,7 @@ def get_input(query):
 def main():
     """Displays first 3 pages of a search query if found."""
     animate = Animation()
-    result = Pip(query) # Pip object.
+    result = Pysearch(query) # Pip object.
     searches = []
     print()
     end_page = 4
@@ -141,25 +141,26 @@ def main():
     print("END")
 
 if __name__ == "__main__":
+    try:
+        print()
+        if len(sys.argv) < 2:
+            query = input("Enter package to search: ")
+            query = get_input(query)
+        
+            if query:
+                main()
+            else:
+                print("Invalid query entered.")
 
-    print()
-    if len(sys.argv) < 2:
-        query = input("Enter package to search: ")
-        query = get_input(query)
+        else:
+            query = sys.argv[1]
+            query = get_input(query)
     
-        if query:
-            main()
-        else:
-            print("Invalid query entered.")
-
-    else:
-        query = sys.argv[1]
-        query = get_input(query)
-   
-        # if user query passes.
-        if query:
-            main()
-        else:
-            print("Invalid query entered.")
-
-
+            # if user query passes.
+            if query:
+                main()
+            else:
+                print("Invalid query entered.")
+    except KeyboardInterrupt:
+        print("\nOperation Cancelled by User")
+        
