@@ -35,12 +35,9 @@ class Animation(Thread):
         super().join()
 
 if __name__ == "__main__":
-    #Example of how to use replace sleep with function
-
+    # For testing
     animate = Animation()
-
     animate.start()
-    
     time.sleep(5)
 
     animate.join()
