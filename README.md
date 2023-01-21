@@ -16,7 +16,7 @@ Installation Instructions for Pysearch
 # Contributors
 Toluhunter https://www.linkedin.com/in/tolulope-fakoya-775550224/
 
-Edolor
+Edolor https://ng.linkedin.com/in/aghoghomena-akasukpe-84b476207
 
 ---
 
